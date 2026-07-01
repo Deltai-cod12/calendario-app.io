@@ -1,30 +1,42 @@
 // Date utility functions
 
+/**
+ * CRITICAL: Parse a date string safely in LOCAL timezone.
+ * "2025-07-04" parsed with new Date() becomes UTC midnight → shifts to Jul 3 in UTC-6.
+ * We detect all-day strings (YYYY-MM-DD) and build the date locally.
+ */
+export function parseDate(dateStr) {
+  if (!dateStr) return new Date();
+  // All-day format: YYYY-MM-DD  (no T, no Z)
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(y, m - 1, d); // LOCAL time, no UTC shift
+  }
+  return new Date(dateStr); // ISO with time/Z → let JS handle it
+}
+
 export function formatDate(dateStr) {
   if (!dateStr) return '';
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+  return parseDate(dateStr).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 export function formatTime(dateStr) {
   if (!dateStr) return '';
-  if (!dateStr.includes('T')) return 'Todo el día';
-  const d = new Date(dateStr);
-  return d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return 'Todo el día';
+  return new Date(dateStr).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
 }
 
 export function formatDateShort(dateStr) {
   if (!dateStr) return '';
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+  return parseDate(dateStr).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
 }
 
 export function isSameDay(d1, d2) {
-  const a = new Date(d1);
-  const b = new Date(d2);
+  const a = d1 instanceof Date ? d1 : parseDate(d1);
+  const b = d2 instanceof Date ? d2 : parseDate(d2);
   return a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
+    a.getMonth()    === b.getMonth()    &&
+    a.getDate()     === b.getDate();
 }
 
 export function isToday(dateStr) {
@@ -36,28 +48,27 @@ export function getDaysInMonth(year, month) {
 }
 
 export function getFirstDayOfMonth(year, month) {
-  // 0=Sunday, adjust to Monday start
   const day = new Date(year, month, 1).getDay();
-  return day === 0 ? 6 : day - 1;
+  return day === 0 ? 6 : day - 1; // Monday-start
 }
 
 export function getGreeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return '¡Buenos días';
-  if (hour < 18) return '¡Buenas tardes';
+  const h = new Date().getHours();
+  if (h < 12) return '¡Buenos días';
+  if (h < 18) return '¡Buenas tardes';
   return '¡Buenas noches';
 }
 
 export function getUpcomingEvents(events, days = 7) {
-  const now = new Date();
+  const now    = new Date();
   const future = new Date();
   future.setDate(future.getDate() + days);
   return events
     .filter(e => {
-      const start = new Date(e.start);
-      return start >= now && start <= future;
+      const s = parseDate(e.start);
+      return s >= now && s <= future;
     })
-    .sort((a, b) => new Date(a.start) - new Date(b.start));
+    .sort((a, b) => parseDate(a.start) - parseDate(b.start));
 }
 
 export function getTodayEvents(events) {
@@ -70,15 +81,11 @@ export function getEventsForDay(events, year, month, day) {
 }
 
 export function toLocalISOString(date) {
-  const d = new Date(date);
+  const d   = new Date(date);
   const pad = n => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-export const MONTHS_ES = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-];
-
-export const DAYS_ES = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-export const DAYS_FULL_ES = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+export const MONTHS_ES    = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+export const DAYS_ES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+export const DAYS_FULL_ES = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];

@@ -1,17 +1,17 @@
-# 🌸 Mi Calendario
+#  Mi Calendario
 
 Aplicación web de calendario y recordatorios, hecha con amor. Funciona completamente en el frontend y puede desplegarse en GitHub Pages.
 
-## ✨ Características
+##  Características
 
-- 📅 Vista de dashboard con saludo, mensaje del día y eventos
-- 🗓️ Calendario mensual interactivo
-- 🔔 Gestión de recordatorios con filtros y búsqueda
-- ☁️ Integración opcional con Google Calendar (sincronización, recordatorios por correo)
-- 💾 Modo local (sin Google Calendar): los eventos se guardan en el navegador
-- 📱 Diseño responsive para móvil y escritorio
+-  Vista de dashboard con saludo, mensaje del día y eventos
+-  Calendario mensual interactivo
+-  Gestión de recordatorios con filtros y búsqueda
+-  Integración opcional con Google Calendar (sincronización, recordatorios por correo)
+-  Modo local (sin Google Calendar): los eventos se guardan en el navegador
+-  Diseño responsive para móvil y escritorio
 
-## 🚀 Inicio rápido (sin Google Calendar)
+##  Inicio rápido (sin Google Calendar)
 
 ```bash
 npm install
@@ -20,7 +20,7 @@ npm run dev
 
 Abre http://localhost:5173 — los eventos se guardarán localmente en el navegador.
 
-## ☁️ Configurar Google Calendar (opcional)
+##  Configurar Google Calendar (opcional)
 
 ### 1. Crear credenciales en Google Cloud Console
 
@@ -54,7 +54,7 @@ VITE_GOOGLE_CLIENT_ID=tu_client_id.apps.googleusercontent.com
 VITE_GOOGLE_API_KEY=tu_api_key
 ```
 
-## 📦 Despliegue en GitHub Pages
+##  Despliegue en GitHub Pages
 
 ### Opción A: Automático con GitHub Actions
 
@@ -81,14 +81,14 @@ En `vite.config.js`, cambia la base al nombre de tu repositorio:
 base: '/nombre-de-tu-repo/',
 ```
 
-## 🛠️ Tecnologías
+##  Tecnologías
 
 - **React 18** + **Vite**
 - **Tailwind CSS**
 - **React Router** (HashRouter para GitHub Pages)
 - **Google Calendar API** + **Google Identity Services**
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 ```
 src/
@@ -109,6 +109,6 @@ src/
     └── RemindersView.jsx # Vista de recordatorios
 ```
 
-## 💕 Créditos
+##  Créditos
 
 Hecho con amor como regalo personal.
