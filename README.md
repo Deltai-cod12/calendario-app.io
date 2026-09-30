@@ -1,114 +1,133 @@
-#  Mi Calendario
+# Personal Calendar & Reminders | Calendario personal y recordatorios
 
-Aplicación web de calendario y recordatorios, hecha con amor. Funciona completamente en el frontend y puede desplegarse en GitHub Pages.
+**Repository name suggestion:** `calendar-reminders-app`  
+**Nombre en español:** `Calendario personal y recordatorios`  
+**Description:** Responsive React calendar and reminders app with local browser storage and optional Google Calendar integration.
 
-##  Características
+## English
 
--  Vista de dashboard con saludo, mensaje del día y eventos
--  Calendario mensual interactivo
--  Gestión de recordatorios con filtros y búsqueda
--  Integración opcional con Google Calendar (sincronización, recordatorios por correo)
--  Modo local (sin Google Calendar): los eventos se guardan en el navegador
--  Diseño responsive para móvil y escritorio
+### Overview
 
-##  Inicio rápido (sin Google Calendar)
+A responsive personal calendar built with React and Vite. It includes a dashboard, monthly calendar, event creation and editing, and a reminders view. It can work locally in the browser or connect to Google Calendar when API credentials are configured.
+
+### Features
+
+- Dashboard with daily greeting and upcoming events
+- Interactive monthly calendar
+- Create, edit, delete, search and filter reminders/events
+- Local mode for using the app without Google Calendar
+- Optional Google Calendar sign-in and synchronization
+- Responsive layout, dark mode and mobile navigation
+
+### Technology
+
+- React 18, Vite and JavaScript
+- Tailwind CSS
+- React Router with `HashRouter` for static hosting
+- Day.js and Lucide React
+- Google Calendar API and Google Identity Services (optional)
+- GitHub Actions workflow for GitHub Pages
+
+### Requirements
+
+- Node.js and npm
+- Google Cloud project credentials only if enabling Google Calendar integration
+
+### Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abre http://localhost:5173 — los eventos se guardarán localmente en el navegador.
+Open the local URL printed by Vite. Without Google credentials, the app can be explored in local mode.
 
-##  Configurar Google Calendar (opcional)
+### Optional Google Calendar setup
 
-### 1. Crear credenciales en Google Cloud Console
+Create a `.env` file in the project root:
 
-1. Ve a [Google Cloud Console](https://console.cloud.google.com/)
-2. Crea un proyecto nuevo (o selecciona uno existente)
-3. En el menú lateral → **APIs y servicios** → **Biblioteca**
-4. Busca y habilita **Google Calendar API**
-5. Ve a **APIs y servicios** → **Credenciales**
+```env
+VITE_GOOGLE_CLIENT_ID=your_oauth_client_id
+VITE_GOOGLE_API_KEY=your_api_key
+```
 
-### 2. Crear API Key
+Enable the Google Calendar API in Google Cloud and configure the OAuth consent screen and authorized JavaScript origins for local development and the deployed site. Do not commit real credentials. The OAuth flow requests calendar access.
 
-1. Clic en **Crear credenciales** → **Clave de API**
-2. Copia la clave generada
-3. (Opcional) Restringe la clave a Google Calendar API
+### Build
 
-### 3. Crear OAuth 2.0 Client ID
+```bash
+npm run build
+npm run preview
+```
 
-1. Clic en **Crear credenciales** → **ID de cliente de OAuth**
-2. Tipo de aplicación: **Aplicación web**
-3. En **Orígenes JavaScript autorizados** agrega:
-   - `http://localhost:5173` (desarrollo local)
-   - `https://TU_USUARIO.github.io` (producción)
-4. Copia el **Client ID**
+The `main` branch includes a GitHub Actions workflow for GitHub Pages. Its build expects `VITE_GOOGLE_CLIENT_ID` and `VITE_GOOGLE_API_KEY` to be configured as repository Actions secrets if the integration is enabled.
 
-### 4. Configurar variables de entorno
+### Documentation
+
+See the repository [README and source](https://github.com/Deltai-cod12/calendario-app.io).
+
+## Español
+
+### Descripción
+
+Calendario personal adaptable a móvil, desarrollado con React y Vite. Incluye un panel principal, calendario mensual, creación y edición de eventos y una vista de recordatorios. Puede funcionar localmente en el navegador o conectarse a Google Calendar al configurar credenciales.
+
+### Funciones
+
+- Panel con saludo diario y próximos eventos
+- Calendario mensual interactivo
+- Crear, editar, eliminar, buscar y filtrar eventos y recordatorios
+- Modo local sin conexión con Google Calendar
+- Inicio de sesión y sincronización opcional con Google Calendar
+- Diseño adaptable, modo oscuro y navegación móvil
+
+### Tecnologías
+
+- React 18, Vite y JavaScript
+- Tailwind CSS
+- React Router con `HashRouter` para hosting estático
+- Day.js y Lucide React
+- Google Calendar API y Google Identity Services (opcional)
+- Flujo de GitHub Actions para GitHub Pages
+
+### Requisitos
+
+- Node.js y npm
+- Credenciales de Google Cloud únicamente si activarás la integración con Google Calendar
+
+### Ejecutar localmente
+
+```bash
+npm install
+npm run dev
+```
+
+Abre la dirección local que muestre Vite. La aplicación puede probarse en modo local sin credenciales de Google.
+
+### Configuración opcional de Google Calendar
 
 Crea un archivo `.env` en la raíz del proyecto:
 
 ```env
-VITE_GOOGLE_CLIENT_ID=tu_client_id.apps.googleusercontent.com
+VITE_GOOGLE_CLIENT_ID=tu_cliente_oauth
 VITE_GOOGLE_API_KEY=tu_api_key
 ```
 
-##  Despliegue en GitHub Pages
+Activa Google Calendar API en Google Cloud y configura la pantalla de consentimiento OAuth y los orígenes JavaScript autorizados para desarrollo local y el sitio publicado. No subas credenciales reales al repositorio. El flujo OAuth solicita acceso al calendario.
 
-### Opción A: Automático con GitHub Actions
-
-1. Sube el código a un repositorio de GitHub
-2. Ve a **Settings** → **Secrets and variables** → **Actions**
-3. Agrega los secrets:
-   - `VITE_GOOGLE_CLIENT_ID`
-   - `VITE_GOOGLE_API_KEY`
-4. Ve a **Settings** → **Pages** → Source: **GitHub Actions**
-5. El workflow se ejecuta automáticamente en cada push a `main`
-
-### Opción B: Manual
+### Compilar
 
 ```bash
 npm run build
-# Sube la carpeta /dist a tu servidor o GitHub Pages manualmente
+npm run preview
 ```
 
-### Ajustar la base URL
+La rama `main` incluye un flujo de GitHub Actions para GitHub Pages. Si se activa la integración, la compilación espera que `VITE_GOOGLE_CLIENT_ID` y `VITE_GOOGLE_API_KEY` estén definidos como secretos de Actions.
 
-En `vite.config.js`, cambia la base al nombre de tu repositorio:
+### Documentación
 
-```js
-base: '/nombre-de-tu-repo/',
-```
+Consulta el [README y el código fuente del repositorio](https://github.com/Deltai-cod12/calendario-app.io).
 
-##  Tecnologías
+---
 
-- **React 18** + **Vite**
-- **Tailwind CSS**
-- **React Router** (HashRouter para GitHub Pages)
-- **Google Calendar API** + **Google Identity Services**
-
-##  Estructura del proyecto
-
-```
-src/
-├── components/
-│   ├── Navbar.jsx        # Navegación lateral (desktop) y bottom (móvil)
-│   ├── EventModal.jsx    # Modal para crear/editar eventos
-│   ├── EventCard.jsx     # Tarjeta de evento
-│   └── MiniCalendar.jsx  # Calendario pequeño para dashboard
-├── context/
-│   └── GoogleCalendarContext.jsx  # Estado global + API de Google
-├── data/
-│   └── messages.js       # Mensajes del día (65 mensajes únicos)
-├── utils/
-│   └── dateUtils.js      # Funciones de fechas
-└── views/
-    ├── Dashboard.jsx     # Vista principal
-    ├── CalendarView.jsx  # Vista de calendario mensual
-    └── RemindersView.jsx # Vista de recordatorios
-```
-
-##  Créditos
-
-Hecho con amor como regalo personal.
+**Topics:** `react`, `vite`, `javascript`, `tailwindcss`, `calendar`, `reminders`, `google-calendar-api`, `google-identity-services`, `github-pages`, `responsive-design`
